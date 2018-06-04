@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8>
+    <title>My first three.js app</title>
+    <style>
+        body { margin: 0; }
+        canvas { width: 100%; height: 100% }
+    </style>
+</head>
+<body>
+<script src="./js/three.js"></script>
+<script src="./js/StereoEffect.js"></script>
+<script src="./js/DeviceOrientationControls.js"></script>
+<script src="./js/OrbitControls.js"></script>
+<script src="./js/DragControls.js"></script>
+<script src="./js/TrackballControls.js"></script>
+<script>
+	function init() {
+		var scene    = new THREE.Scene(),
+		    camera   = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 ),
+		    renderer = new THREE.WebGLRenderer(),
+		    effect   = new THREE.StereoEffect(renderer),
+            objects  = [],
+            material,
+            geometry,
+            line,
+            redline,
+			dragControls;
+
+
+
+
+		material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+		geometry = new THREE.Geometry();
+		line     = new THREE.Line( geometry, material );
+
+		geometry.vertices.push(new THREE.Vector3( -10, 0, 0) );
+		geometry.vertices.push(new THREE.Vector3( -1, 0, 0) );
+		scene.add( line );
+		objects.push( line );
+
+		material = new THREE.LineBasicMaterial( { color: 0xFF0000 } );
+		geometry = new THREE.Geometry();
+		redline  = new THREE.Line( geometry, material );
+
+		geometry.vertices.push(new THREE.Vector3( 1, 0, 0) );
+		geometry.vertices.push(new THREE.Vector3( 10, 0, 0) );
+		scene.add( redline );
+
+		dragControls = new THREE.DragControls( objects, camera, renderer.domElement );
+		dragControls.constrains(y);
+		dragControls.addEventListener('move', function ( event ) {
+			debugger;
+		} );
+
+
+
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+
+		camera.position.z = -15;
+		camera.position.x = 0;
+		camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
+
+		/**
+         * Animate
+		 */
+		function animate() {
+			requestAnimationFrame( animate );
+
+			// Use this for the VR goggles effect
+			//effect.render( scene, camera );
+
+			renderer.render( scene, camera );
+		}
+		animate();
+	}
+	init();
+
+</script>
+</body>
+</html>
