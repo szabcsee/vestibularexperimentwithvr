@@ -49,10 +49,7 @@
 		scene.add( redline );
 
 		dragControls = new THREE.DragControls( objects, camera, renderer.domElement );
-		dragControls.constrains(y);
-		dragControls.addEventListener('move', function ( event ) {
-			debugger;
-		} );
+		dragControls.constrains('y');
 
 
 

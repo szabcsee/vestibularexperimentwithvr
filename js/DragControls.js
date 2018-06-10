@@ -56,12 +56,39 @@ THREE.DragControls = function ( _objects, _camera, _domElement ) {
 
 	}
 
+	// Drag constrains (eg. move along x-axis only, y only, x and y, or default xyz)
+	var moveX, moveY, moveZ;
+	moveX = moveY = moveZ = true;
+
+	this.constrains = function(xyz) {
+
+		if (xyz === undefined)
+			xyz = 'xyz';
+
+		moveX = moveY = moveZ = false;
+
+		if (xyz.indexOf('x') > -1) {
+			moveX = true;
+		}
+
+		if (xyz.indexOf('y') > -1) {
+			moveY = true;
+		}
+
+		if (xyz.indexOf('z') > -1) {
+			moveZ = true;
+		}
+
+		return this;
+
+	};
+
+
 	function onDocumentMouseMove( event ) {
 
 		event.preventDefault();
 
 		var rect = _domElement.getBoundingClientRect();
-
 		_mouse.x = ( ( event.clientX - rect.left ) / rect.width ) * 2 - 1;
 		_mouse.y = - ( ( event.clientY - rect.top ) / rect.height ) * 2 + 1;
 
@@ -70,9 +97,7 @@ THREE.DragControls = function ( _objects, _camera, _domElement ) {
 		if ( _selected && scope.enabled ) {
 
 			if ( _raycaster.ray.intersectPlane( _plane, _intersection ) ) {
-
 				_selected.position.copy( _intersection.sub( _offset ) );
-
 			}
 
 			scope.dispatchEvent( { type: 'drag', object: _selected } );
