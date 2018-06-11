@@ -97,7 +97,16 @@ THREE.DragControls = function ( _objects, _camera, _domElement ) {
 		if ( _selected && scope.enabled ) {
 
 			if ( _raycaster.ray.intersectPlane( _plane, _intersection ) ) {
-				_selected.position.copy( _intersection.sub( _offset ) );
+
+				/**
+				 *  Constrain feature added
+				 */
+				_intersection.sub( _offset );
+				//_selected.position.copy( _intersection.sub( _offset ) );
+
+				if (moveX) _selected.position.x = _intersection.x;
+				if (moveY) _selected.position.y = _intersection.y;
+				if (moveZ) _selected.position.z = _intersection.z;
 			}
 
 			scope.dispatchEvent( { type: 'drag', object: _selected } );
