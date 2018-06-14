@@ -85,6 +85,7 @@ THREE.DragControls = function ( _objects, _camera, _domElement ) {
 
 
 	function onDocumentMouseMove( event ) {
+	var rotationDrag = false;
 
 		event.preventDefault();
 
@@ -95,18 +96,27 @@ THREE.DragControls = function ( _objects, _camera, _domElement ) {
 		_raycaster.setFromCamera( _mouse, _camera );
 
 		if ( _selected && scope.enabled ) {
+			if (event.altKey === true) {
+				rotationDrag = true;
+			}
 
+//TODO: somewhere here should be a rotationDrag check and if it's true than rotate the line instead of moving it
 			if ( _raycaster.ray.intersectPlane( _plane, _intersection ) ) {
 
 				/**
 				 *  Constrain feature added
 				 */
+
 				_intersection.sub( _offset );
 				//_selected.position.copy( _intersection.sub( _offset ) );
-
-				if (moveX) _selected.position.x = _intersection.x;
-				if (moveY) _selected.position.y = _intersection.y;
-				if (moveZ) _selected.position.z = _intersection.z;
+				if (!rotationDrag) {
+					if (moveX) _selected.position.x = _intersection.x;
+					if (moveY) _selected.position.y = _intersection.y;
+					if (moveZ) _selected.position.z = _intersection.z;
+				} else {
+					var axis = new THREE.Vector3( -10, 0, 1 );
+					_selected.rotateOnAxis( _mouse.y + _mouse.x * (2 * Math.PI) / -1600);
+				}
 			}
 
 			scope.dispatchEvent( { type: 'drag', object: _selected } );
