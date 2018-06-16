@@ -114,8 +114,9 @@ THREE.DragControls = function ( _objects, _camera, _domElement ) {
 					if (moveY) _selected.position.y = _intersection.y;
 					if (moveZ) _selected.position.z = _intersection.z;
 				} else {
-					var axis = new THREE.Vector3( -10, 0, 1 );
-					_selected.rotateOnAxis( _mouse.y + _mouse.x * (2 * Math.PI) / -1600);
+					debugger;
+
+					_selected.rotateZ(0.018);
 				}
 			}
 

@@ -44,8 +44,8 @@
 		geometry = new THREE.Geometry();
 		redline  = new THREE.Line( geometry, material );
 
-		geometry.vertices.push(new THREE.Vector3( 0, 0, 0) );
-		geometry.vertices.push(new THREE.Vector3( 10, 0, 0) );
+		geometry.vertices.push(new THREE.Vector3( -20, 0, 0) );
+		geometry.vertices.push(new THREE.Vector3( -10, 0, 0) );
 		scene.add( redline );
 
 		dragControls = new THREE.DragControls( objects, camera, renderer.domElement );
@@ -56,10 +56,10 @@
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		document.body.appendChild( renderer.domElement );
 
-		camera.position.z = -15;
-		camera.position.x = 0;
+		camera.position.z = 15;
+		camera.position.x = -10;
 		camera.position.y = 0;
-		camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
+		camera.lookAt( new THREE.Vector3( -10, 0, 0 ) );
 
 		/**
          * Animate
@@ -68,8 +68,10 @@
 			requestAnimationFrame( animate );
 
 			// Use this for the VR goggles effect
-			//effect.render( scene, camera );
-			renderer.render( scene, camera );
+			effect.render( scene, camera );
+
+			// Use this for normal display
+			//renderer.render( scene, camera );
 		}
 		animate();
 	}
